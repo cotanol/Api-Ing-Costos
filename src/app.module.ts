@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { ProjectsModule } from './projects/projects.module';
-import { CostsModule } from './costs/costs.module';
-import { BenefitsModule } from './benefits/benefits.module';
-import { AnalysisModule } from './analysis/analysis.module';
-
+import { ProyectosModule } from './proyectos/proyectos.module';
+import { CostosModule } from './costos/costos.module';
+import { BeneficiosModule } from './beneficios/beneficios.module';
+import { AnalisisModule } from './analisis/analisis.module';
+// Importa los módulos necesarios para la aplicación, incluyendo TypeORM para la conexión a la base de datos
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,14 +21,14 @@ import { AnalysisModule } from './analysis/analysis.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+// Registra los módulos de Proyectos, Costos, Beneficios y Análisis
+    ProyectosModule,
 
-    ProjectsModule,
+    CostosModule,
 
-    CostsModule,
+    BeneficiosModule,
 
-    BenefitsModule,
-
-    AnalysisModule,
-  ],
+    AnalisisModule,
+  ], // Importa los módulos de la aplicación
 })
 export class AppModule {}
