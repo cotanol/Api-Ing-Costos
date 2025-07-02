@@ -7,7 +7,9 @@ export enum TipoBeneficio {
   INTANGIBLE = 'INTANGIBLE',
 }
 
-@Entity()
+@Entity({
+  name: 'beneficios',
+})
 export class Beneficio {
   @PrimaryGeneratedColumn('uuid')
   id: string;

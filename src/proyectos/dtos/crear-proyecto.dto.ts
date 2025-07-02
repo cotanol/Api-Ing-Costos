@@ -9,7 +9,7 @@ export class CrearProyectoDto {
 
   @IsInt()
   @Min(1)
-  horizonteAnalisis: number; // Horizonte de análisis en años (N Años)
+  horizonteAnalisis: number; // Horizonte de análisis en años (N momentos),
 
   @IsNumber()
   @Min(1)

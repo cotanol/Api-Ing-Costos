@@ -19,7 +19,7 @@ export class Proyecto {
   horizonteAnalisis: number; // Horizonte de análisis en años (N Años)
 
   @Column({ type: 'decimal', precision: 5, scale: 2 })
-  tasaDescuento: number; // Tasa de descuento para el cálculo del VAN
+  tasaDescuento: number; // Tasa de descuento para el cálculo del VAN, o costo de oportunidad del capital
 
   @OneToMany(() => Costo, (costo) => costo.proyecto)
   costos: Costo[]; // Relación con los costos

@@ -7,20 +7,22 @@ export enum TipoCosto {
   VARIABLE = 'VARIABLE',
 }
 // La entidad Costo representa un costo asociado a un proyecto, con sus propiedades y relaciones
-@Entity()
+@Entity({
+  name: 'costos',
+})
 export class Costo {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  
-// Identificador único del costo, generado automáticamente como un UUID
+
+  // Identificador único del costo, generado automáticamente como un UUID
   @Column()
   nombre: string;
 
-// Nombre del costo, que puede ser un costo fijo o variable
+  // Nombre del costo, que puede ser un costo fijo o variable
   @Column('text')
   descripcion: string;
 
-// Descripción del costo, que proporciona más detalles sobre su naturaleza y propósito
+  // Descripción del costo, que proporciona más detalles sobre su naturaleza y propósito
   @Column({
     type: 'enum',
     enum: TipoCosto,
@@ -31,7 +33,7 @@ export class Costo {
   @Column('decimal', { array: true })
   valoresAnuales: number[];
 
-// Valores anualizados del costo, representados como un array de números
+  // Valores anualizados del costo, representados como un array de números
   @ManyToOne(() => Proyecto, (proyecto) => proyecto.costos)
   proyecto: Proyecto;
 }

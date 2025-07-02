@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CrearBeneficioDto } from './dtos/crear-beneficio.dto';
 import { ActualizarBeneficioDto } from './dtos/actualizar-beneficio.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,22 +17,32 @@ export class BeneficiosService {
     private readonly beneficioRepository: Repository<Beneficio>,
     private readonly proyectosService: ProyectosService,
   ) {}
-// Crea un nuevo beneficio asociado a un proyecto y lo guarda en la base de datos.
-  async create(crearBeneficioDto: CrearBeneficioDto): Promise<Beneficio> { // Verifica que el proyecto existe
+  // Crea un nuevo beneficio asociado a un proyecto y lo guarda en la base de datos.
+  async create(crearBeneficioDto: CrearBeneficioDto): Promise<Beneficio> {
+    // Verifica que el proyecto existe
     const proyecto = await this.proyectosService.findOne(
       crearBeneficioDto.proyectoId,
     );
+
+    if (
+      proyecto.horizonteAnalisis !== crearBeneficioDto.valoresAnuales.length
+    ) {
+      throw new BadRequestException(
+        `El horizonte de análisis del proyecto (${proyecto.horizonteAnalisis} años) no coincide con la cantidad de valores anuales proporcionados (${crearBeneficioDto.valoresAnuales.length} años)`,
+      );
+    }
+
     const beneficio = this.beneficioRepository.create({
       ...crearBeneficioDto,
       proyecto,
     });
     return this.beneficioRepository.save(beneficio);
   }
-// Devuelve todos los beneficios almacenados en la base de datos.
+  // Devuelve todos los beneficios almacenados en la base de datos.
   findAll(): Promise<Beneficio[]> {
     return this.beneficioRepository.find();
   }
-// Busca un beneficio por su ID. Si no se encuentra, lanza una excepción NotFoundException.
+  // Busca un beneficio por su ID. Si no se encuentra, lanza una excepción NotFoundException.
   async findOne(id: string): Promise<Beneficio> {
     const beneficio = await this.beneficioRepository.findOne({ where: { id } });
     if (!beneficio) {
@@ -36,7 +50,7 @@ export class BeneficiosService {
     }
     return beneficio;
   }
-// Actualiza un beneficio existente por su ID. Si el beneficio no existe, lanza una excepción NotFoundException.
+  // Actualiza un beneficio existente por su ID. Si el beneficio no existe, lanza una excepción NotFoundException.
   async update(
     id: string,
     actualizarBeneficioDto: ActualizarBeneficioDto,
@@ -48,9 +62,34 @@ export class BeneficiosService {
     if (!beneficio) {
       throw new NotFoundException(`Beneficio con ID "${id}" no encontrado`);
     }
+
+    if (actualizarBeneficioDto.valoresAnuales) {
+      if (actualizarBeneficioDto.proyectoId) {
+        // Verifica que el proyecto existe
+        const proyecto = await this.proyectosService.findOne(
+          actualizarBeneficioDto.proyectoId,
+        );
+
+        if (
+          proyecto.horizonteAnalisis !==
+          actualizarBeneficioDto.valoresAnuales.length
+        ) {
+          throw new BadRequestException(
+            `El horizonte de análisis del proyecto (${proyecto.horizonteAnalisis} años) no coincide con la cantidad de valores anuales proporcionados (${actualizarBeneficioDto.valoresAnuales.length} años)`,
+          );
+        }
+
+        beneficio.proyecto = proyecto;
+      } else {
+        throw new BadRequestException(
+          'Si se actualizan los valores anuales, también debe proporcionarse el ID del proyecto',
+        );
+      }
+    }
+
     return this.beneficioRepository.save(beneficio);
   }
-// Elimina un beneficio por su ID. Si el beneficio no existe, lanza una excepción NotFoundException.
+  // Elimina un beneficio por su ID. Si el beneficio no existe, lanza una excepción NotFoundException.
   async remove(id: string): Promise<void> {
     const beneficio = await this.findOne(id);
     await this.beneficioRepository.remove(beneficio);

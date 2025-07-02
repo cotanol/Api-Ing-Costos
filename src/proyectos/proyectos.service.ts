@@ -14,7 +14,7 @@ export class ProyectosService {
     private readonly proyectoRepository: Repository<Proyecto>,
     private readonly entityManager: EntityManager,
   ) {}
-// Crea un nuevo proyecto y lo guarda en la base de datos.
+  // Crea un nuevo proyecto y lo guarda en la base de datos.
   create(crearProyectoDto: CrearProyectoDto): Promise<Proyecto> {
     const proyecto = this.proyectoRepository.create(crearProyectoDto);
     return this.proyectoRepository.save(proyecto);
@@ -22,9 +22,14 @@ export class ProyectosService {
 
   findAll(): Promise<Proyecto[]> {
     // Devuelve todos los proyectos, incluyendo sus costos y beneficios
-    return this.proyectoRepository.find();
+    return this.proyectoRepository.find({
+      relations: {
+        costos: true,
+        beneficios: true,
+      },
+    });
   }
-// Busca un proyecto por su ID. Si no se encuentra, lanza una excepción NotFoundException.
+  // Busca un proyecto por su ID. Si no se encuentra, lanza una excepción NotFoundException.
   async findOne(id: string): Promise<Proyecto> {
     const proyecto = await this.proyectoRepository.findOne({
       where: { id },
@@ -38,8 +43,11 @@ export class ProyectosService {
     }
     return proyecto;
   }
-// Actualiza un proyecto existente por su ID. Si el proyecto no existe, lanza una excepción NotFoundException.
-  async update(id: string, actualizarProyectoDto: ActualizarProyectoDto): Promise<Proyecto> {
+  // Actualiza un proyecto existente por su ID. Si el proyecto no existe, lanza una excepción NotFoundException.
+  async update(
+    id: string,
+    actualizarProyectoDto: ActualizarProyectoDto,
+  ): Promise<Proyecto> {
     const proyecto = await this.proyectoRepository.preload({
       id,
       ...actualizarProyectoDto,
@@ -49,11 +57,13 @@ export class ProyectosService {
     }
     return this.proyectoRepository.save(proyecto);
   }
-// Elimina un proyecto por su ID. Si el proyecto no existe, lanza una excepción NotFoundException.
+  // Elimina un proyecto por su ID. Si el proyecto no existe, lanza una excepción NotFoundException.
   async remove(id: string): Promise<void> {
     await this.entityManager.transaction(async (transactionalEntityManager) => {
       // Primer verifica que el proyecto existe
-      const proyecto = await transactionalEntityManager.findOne(Proyecto, { where: { id } });
+      const proyecto = await transactionalEntityManager.findOne(Proyecto, {
+        where: { id },
+      });
       if (!proyecto) {
         throw new NotFoundException(`Proyecto con ID "${id}" no encontrado`);
       }

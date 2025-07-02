@@ -8,7 +8,7 @@ import { Beneficio } from 'src/beneficios/entities/beneficio.entity';
 export class AnalisisService {
   constructor(private readonly proyectosService: ProyectosService) {}
 
-  async calculate(proyectoId: string): Promise<AnalisisRespuestaDto> {
+  async calcularAnalisis(proyectoId: string): Promise<AnalisisRespuestaDto> {
     const proyecto = await this.proyectosService.findOne(proyectoId);
     if (!proyecto) {
       throw new NotFoundException('Proyecto no encontrado');
@@ -17,18 +17,18 @@ export class AnalisisService {
     const { horizonteAnalisis, tasaDescuento, costos, beneficios } = proyecto;
 
     // Paso 1: Calcular correctamente los flujos de caja netos anuales
-    const flujoCajaNeto = this.calcularFlujoCajaNeto(
+    const flujosCajaNetos = this.calcularFlujosCajaNetos(
       costos,
       beneficios,
       horizonteAnalisis,
     );
 
     // Paso 2: Separar la inversión inicial de los flujos operativos
-    const inversionInicial = -flujoCajaNeto[0]; // La inversión es el flujo del año 1 en positivo
-    const flujosOperativos = flujoCajaNeto.slice(1); // El resto son los flujos operativos
+    const inversionInicial = -flujosCajaNetos[0]; // La inversión es el flujo del año 1 en positivo
+    const flujosOperativos = flujosCajaNetos.slice(1); // El resto son los flujos operativos
 
     // Paso 3: Calcular las métricas con los datos correctos
-    const valorPresenteNeto = this.calcularVAN(
+    const valorActualNeto = this.calcularVAN(
       tasaDescuento,
       inversionInicial,
       flujosOperativos,
@@ -41,37 +41,37 @@ export class AnalisisService {
       inversionInicial,
       flujosOperativos,
     );
-    const flujosCajaAcumulados = this.calcularFlujosCajaAcumulados(flujoCajaNeto);
+    const flujosCajaAcumulados =
+      this.calcularFlujosCajaAcumulados(flujosCajaNetos);
 
     return {
-      valorPresenteNeto, // Valor Actual Neto
+      valorActualNeto, // Valor Actual Neto
       tasaInternaRetorno, // Tasa Interna de Retorno
-      periodoRecuperacion, // Periodo de Recuperación
-      flujoCajaNeto, // Flujos de Caja Netos
+      periodoRecuperacion, // Periodo de Recuperación (Payback)
+      flujosCajaNetos, // Flujos de Caja Netos
       flujosCajaAcumulados, // Flujos de Caja Acumulados
     };
   }
 
-  // simplemente suma los costos (aunque sean negativos)
-  // Net Cash Flows
-  private calcularFlujoCajaNeto(
+  //
+  private calcularFlujosCajaNetos(
     costos: Costo[],
     beneficios: Beneficio[],
     horizonte: number,
   ): number[] {
-    const flujoCajaNeto: number[] = [];
-    for (let year = 0; year < horizonte; year++) {
+    const flujosCajaNetos: number[] = [];
+    for (let anio = 0; anio < horizonte; anio++) {
       const totalBeneficios = beneficios.reduce(
-        (suma, beneficio) => suma + (beneficio.valoresAnuales[year] || 0),
+        (suma, beneficio) => suma + (beneficio.valoresAnuales[anio] || 0),
         0,
       );
       const totalCostos = costos.reduce(
-        (suma, costo) => suma + (costo.valoresAnuales[year] || 0),
+        (suma, costo) => suma + (costo.valoresAnuales[anio] || 0),
         0,
       );
-      flujoCajaNeto.push(totalBeneficios + totalCostos);
+      flujosCajaNetos.push(totalBeneficios + totalCostos);
     }
-    return flujoCajaNeto;
+    return flujosCajaNetos;
   }
 
   // Acepta la inversión y los flujos por separado (VAN)
@@ -79,11 +79,11 @@ export class AnalisisService {
   private calcularVAN(
     tasa: number,
     inversionInicial: number,
-    flujosCaja: number[],
+    flujosCajaOperativos: number[],
   ): number {
     let van = -inversionInicial;
-    for (let i = 0; i < flujosCaja.length; i++) {
-      van += flujosCaja[i] / Math.pow(1 + tasa / 100, i + 1);
+    for (let i = 0; i < flujosCajaOperativos.length; i++) {
+      van += flujosCajaOperativos[i] / Math.pow(1 + tasa / 100, i + 1);
     }
     return van;
   }
@@ -127,17 +127,17 @@ export class AnalisisService {
   // Periodo de Recuperacion
   private calcularPeriodoRecuperacion(
     inversionInicial: number,
-    flujosCaja: number[],
+    flujosOperativos: number[],
   ): number {
     let flujoCajaAcumulado = -inversionInicial;
     if (flujoCajaAcumulado >= 0) return 0;
 
-    for (let i = 0; i < flujosCaja.length; i++) {
-      flujoCajaAcumulado += flujosCaja[i];
+    for (let i = 0; i < flujosOperativos.length; i++) {
+      flujoCajaAcumulado += flujosOperativos[i];
       if (flujoCajaAcumulado >= 0) {
         // Fracción del año para recuperar lo que faltaba
         const fraccionNecesaria =
-          -(flujoCajaAcumulado - flujosCaja[i]) / flujosCaja[i];
+          -(flujoCajaAcumulado - flujosOperativos[i]) / flujosOperativos[i];
         return i + 1 + fraccionNecesaria - 1; // i es 0-indexed, por eso +1 y -1
       }
     }
@@ -155,4 +155,3 @@ export class AnalisisService {
     return acumulado;
   }
 }
-

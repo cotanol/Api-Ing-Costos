@@ -3,8 +3,9 @@ import {
   IsNotEmpty,
   IsEnum,
   IsArray,
-  IsNumber,
   ArrayMinSize,
+  IsInt,
+  Min,
 } from 'class-validator';
 import { TipoBeneficio } from '../entities/beneficio.entity';
 // DTO para crear un nuevo beneficio, incluyendo validaciones para los campos requeridos.
@@ -13,19 +14,20 @@ export class CrearBeneficioDto {
   @IsString()
   @IsNotEmpty()
   nombre: string;
-// Nombre del beneficio, que puede ser un beneficio tangible o intangible
+  // Nombre del beneficio, que puede ser un beneficio tangible o intangible
   @IsString()
   descripcion: string;
-// Descripción del beneficio, que proporciona más detalles sobre su naturaleza y propósito
+  // Descripción del beneficio, que proporciona más detalles sobre su naturaleza y propósito
   @IsEnum(TipoBeneficio)
   @IsNotEmpty()
   tipo: TipoBeneficio;
-// Tipo de beneficio, que puede ser TANGIBLE o INTANGIBLE
+  // Tipo de beneficio, que puede ser TANGIBLE o INTANGIBLE
   @IsArray()
-  @IsNumber({}, { each: true })
+  @IsInt({ each: true })
+  @Min(0, { each: true }) // Asegura que cada valor sea un número entero no negativo
   @ArrayMinSize(1) // Debe tener al menos un valor para el primer año
   valoresAnuales: number[];
-// Valores anualizados del beneficio, representados como un array de números
+  // Valores anualizados del beneficio, representados como un array de números
   @IsString()
   @IsNotEmpty()
   proyectoId: string;
