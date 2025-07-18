@@ -40,11 +40,14 @@ export class BeneficiosService {
   }
   // Devuelve todos los beneficios almacenados en la base de datos.
   findAll(): Promise<Beneficio[]> {
-    return this.beneficioRepository.find();
+    return this.beneficioRepository.find({ relations: { proyecto: true } });
   }
   // Busca un beneficio por su ID. Si no se encuentra, lanza una excepción NotFoundException.
   async findOne(id: string): Promise<Beneficio> {
-    const beneficio = await this.beneficioRepository.findOne({ where: { id } });
+    const beneficio = await this.beneficioRepository.findOne({
+      where: { id },
+      relations: { proyecto: true },
+    });
     if (!beneficio) {
       throw new NotFoundException(`Beneficio con ID "${id}" no encontrado`);
     }

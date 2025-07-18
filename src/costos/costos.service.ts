@@ -36,11 +36,16 @@ export class CostosService {
   }
   // Devuelve todos los costos almacenados en la base de datos.
   findAll(): Promise<Costo[]> {
-    return this.costoRepository.find();
+    return this.costoRepository.find({
+      relations: { proyecto: true }, // Incluye la relación con el proyecto
+    });
   }
   // Busca un costo por su ID. Si no se encuentra, lanza una excepción NotFoundException.
   async findOne(id: string): Promise<Costo> {
-    const costo = await this.costoRepository.findOne({ where: { id } });
+    const costo = await this.costoRepository.findOne({
+      where: { id },
+      relations: { proyecto: true },
+    });
     if (!costo) {
       throw new NotFoundException(`Costo con ID "${id}" no encontrado`);
     }
