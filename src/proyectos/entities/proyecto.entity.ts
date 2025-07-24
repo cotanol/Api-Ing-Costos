@@ -1,6 +1,13 @@
+import { User } from 'src/auth/entities/user.entity';
 import { Beneficio } from '../../beneficios/entities/beneficio.entity';
 import { Costo } from '../../costos/entities/costo.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({
   name: 'proyectos',
@@ -26,4 +33,11 @@ export class Proyecto {
 
   @OneToMany(() => Beneficio, (beneficio) => beneficio.proyecto)
   beneficios: Beneficio[]; // Relación con los beneficios
+
+  @ManyToOne(() => User, (user) => user.proyectos, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    eager: true, // Carga el usuario asociado al proyecto
+  })
+  user: User;
 }

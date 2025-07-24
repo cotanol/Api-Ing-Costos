@@ -11,8 +11,10 @@ import {
 import { BeneficiosService } from './beneficios.service';
 import { CrearBeneficioDto } from './dtos/crear-beneficio.dto';
 import { ActualizarBeneficioDto } from './dtos/actualizar-beneficio.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
 // Controlador para manejar las operaciones relacionadas con los beneficios.
 @Controller('beneficios')
+@Auth()
 export class BeneficiosController {
   constructor(private readonly beneficiosService: BeneficiosService) {}
   // Define las rutas y métodos HTTP para manejar las operaciones CRUD de los beneficios.

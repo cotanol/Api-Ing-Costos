@@ -5,6 +5,9 @@ import { ProyectosModule } from './proyectos/proyectos.module';
 import { CostosModule } from './costos/costos.module';
 import { BeneficiosModule } from './beneficios/beneficios.module';
 import { AnalisisModule } from './analisis/analisis.module';
+import { CategoriasCostoModule } from './categorias-costo/categorias-costo.module';
+import { ItemsCostoBaseModule } from './items-costo-base/items-costo-base.module';
+import { AuthModule } from './auth/auth.module';
 // Importa los módulos necesarios para la aplicación, incluyendo TypeORM para la conexión a la base de datos
 @Module({
   imports: [
@@ -20,8 +23,11 @@ import { AnalisisModule } from './analisis/analisis.module';
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: true,
+      // dropSchema: true, // ¡CUIDADO! Esto borra la BD en cada reinicio. Usar solo en desarrollo.
     }),
-// Registra los módulos de Proyectos, Costos, Beneficios y Análisis
+
+    AuthModule,
+
     ProyectosModule,
 
     CostosModule,
@@ -29,6 +35,10 @@ import { AnalisisModule } from './analisis/analisis.module';
     BeneficiosModule,
 
     AnalisisModule,
-  ], // Importa los módulos de la aplicación
+
+    CategoriasCostoModule,
+
+    ItemsCostoBaseModule,
+  ],
 })
 export class AppModule {}

@@ -30,7 +30,9 @@ export class Beneficio {
   // Almacena los valores monetarios anualizados para N años
   @Column('decimal', {
     array: true,
-    comment: 'Valores anualizados del beneficio para el horizonte del proyecto',
+    precision: 12,
+    scale: 2,
+    nullable: false,
   })
   valoresAnuales: number[];
 

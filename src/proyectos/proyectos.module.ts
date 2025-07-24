@@ -4,6 +4,7 @@ import { ProyectosController } from './proyectos.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Proyecto } from './entities/proyecto.entity';
 import { AnalisisModule } from '../analisis/analisis.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 // Este módulo maneja la lógica de negocio relacionada con los proyectos, incluyendo su creación,
 // actualización y eliminación.
@@ -11,6 +12,7 @@ import { AnalisisModule } from '../analisis/analisis.module';
   imports: [
     TypeOrmModule.forFeature([Proyecto]),
     forwardRef(() => AnalisisModule),
+    AuthModule,
   ],
   // Registra el controlador y el servicio de proyectos en el módulo.
   controllers: [ProyectosController],

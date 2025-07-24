@@ -4,9 +4,10 @@ import { CostosController } from './costos.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Costo } from './entities/costo.entity';
 import { ProyectosModule } from '../proyectos/proyectos.module';
+import { AuthModule } from 'src/auth/auth.module';
 // Este módulo maneja la lógica de negocio relacionada con los costos, incluyendo su creación,
 @Module({
-  imports: [TypeOrmModule.forFeature([Costo]), ProyectosModule],
+  imports: [TypeOrmModule.forFeature([Costo]), ProyectosModule, AuthModule],
   controllers: [CostosController],
   providers: [CostosService],
   exports: [CostosService, TypeOrmModule],

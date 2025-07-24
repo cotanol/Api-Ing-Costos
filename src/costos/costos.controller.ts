@@ -11,8 +11,10 @@ import {
 import { CostosService } from './costos.service';
 import { CrearCostoDto } from './dtos/crear-costo.dto';
 import { ActualizarCostoDto } from './dtos/actualizar-costo.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
 // Controlador para manejar las operaciones relacionadas con los costos.
 
+@Auth()
 @Controller('costos')
 export class CostosController {
   constructor(private readonly costosService: CostosService) {}

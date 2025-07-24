@@ -6,6 +6,7 @@ import { Proyecto } from './entities/proyecto.entity';
 import { EntityManager, Repository } from 'typeorm';
 import { Costo } from '../costos/entities/costo.entity';
 import { Beneficio } from '../beneficios/entities/beneficio.entity';
+import { User } from 'src/auth/entities/user.entity';
 
 @Injectable()
 export class ProyectosService {
@@ -15,8 +16,9 @@ export class ProyectosService {
     private readonly entityManager: EntityManager,
   ) {}
   // Crea un nuevo proyecto y lo guarda en la base de datos.
-  create(crearProyectoDto: CrearProyectoDto): Promise<Proyecto> {
+  create(crearProyectoDto: CrearProyectoDto, user: User): Promise<Proyecto> {
     const proyecto = this.proyectoRepository.create(crearProyectoDto);
+    proyecto.user = user;
     return this.proyectoRepository.save(proyecto);
   }
 

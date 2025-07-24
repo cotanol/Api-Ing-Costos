@@ -30,7 +30,7 @@ export class Costo {
   tipo: TipoCosto;
 
   // Almacena los valores anualizados como un array de números
-  @Column('decimal', { array: true })
+  @Column('decimal', { precision: 12, scale: 2, nullable: false, array: true })
   valoresAnuales: number[];
 
   // Valores anualizados del costo, representados como un array de números
