@@ -1,6 +1,4 @@
 import { User } from 'src/auth/entities/user.entity';
-import { Beneficio } from '../../beneficios/entities/beneficio.entity';
-import { Costo } from '../../costos/entities/costo.entity';
 import {
   Column,
   Entity,
@@ -8,6 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { FlujoFinanciero } from 'src/flujos-financieros/entities/flujo-financiero.entity';
 
 @Entity({
   name: 'proyectos',
@@ -28,11 +27,8 @@ export class Proyecto {
   @Column({ type: 'decimal', precision: 5, scale: 2 })
   tasaDescuento: number; // Tasa de descuento para el cálculo del VAN, o costo de oportunidad del capital
 
-  @OneToMany(() => Costo, (costo) => costo.proyecto)
-  costos: Costo[]; // Relación con los costos
-
-  @OneToMany(() => Beneficio, (beneficio) => beneficio.proyecto)
-  beneficios: Beneficio[]; // Relación con los beneficios
+  @OneToMany(() => FlujoFinanciero, (flujo) => flujo.proyecto)
+  flujos: FlujoFinanciero[]; // Relación con los flujos financieros
 
   @ManyToOne(() => User, (user) => user.proyectos, {
     nullable: false,

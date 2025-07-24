@@ -3,65 +3,73 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CrearCostoDto } from './dtos/crear-costo.dto';
-import { ActualizarCostoDto } from './dtos/actualizar-costo.dto';
+
 import { InjectRepository } from '@nestjs/typeorm';
-import { Costo } from './entities/costo.entity';
+
 import { Repository } from 'typeorm';
 import { ProyectosService } from '../proyectos/proyectos.service';
+import { FlujoFinanciero } from './entities/flujo-financiero.entity';
+import { ActualizarFlujoFinancieroDto } from './dtos/actualizar-flujo-financiero.dto';
+import { CrearFlujoFinancieroDto } from './dtos/crear-flujo-financiero.dto';
 
 @Injectable() // Este servicio maneja la lógica de negocio relacionada con los costos, incluyendo su creación,
-export class CostosService {
+export class FlujosFinancierosService {
   constructor(
     // Inyecta el repositorio de Costo y el servicio de Proyectos
-    @InjectRepository(Costo)
-    private readonly costoRepository: Repository<Costo>,
+    @InjectRepository(FlujoFinanciero)
+    private readonly flujoFinancieroRepository: Repository<FlujoFinanciero>,
     private readonly proyectosService: ProyectosService,
   ) {}
   // Crea un nuevo costo asociado a un proyecto y lo guarda en la base de datos.
-  async create(crearCostoDto: CrearCostoDto): Promise<Costo> {
+  async create(
+    crearFlujoDto: CrearFlujoFinancieroDto,
+  ): Promise<FlujoFinanciero> {
     const proyecto = await this.proyectosService.findOne(
-      crearCostoDto.proyectoId,
+      crearFlujoDto.proyectoId,
     );
-    if (proyecto.horizonteAnalisis !== crearCostoDto.valoresAnuales.length) {
+    if (proyecto.horizonteAnalisis !== crearFlujoDto.valoresAnuales.length) {
       throw new BadRequestException(
-        `El horizonte de análisis del proyecto (${proyecto.horizonteAnalisis} años) no coincide con la cantidad de valores anuales proporcionados (${crearCostoDto.valoresAnuales.length} años)`,
+        `El horizonte de análisis del proyecto (${proyecto.horizonteAnalisis} años) no coincide con la cantidad de valores anuales proporcionados (${crearFlujoDto.valoresAnuales.length} años)`,
       );
     }
-    const costo = this.costoRepository.create({
-      ...crearCostoDto,
+    const flujoFinanciero = this.flujoFinancieroRepository.create({
+      ...crearFlujoDto,
       proyecto,
     });
-    return this.costoRepository.save(costo);
+    return this.flujoFinancieroRepository.save(flujoFinanciero);
   }
   // Devuelve todos los costos almacenados en la base de datos.
-  findAll(): Promise<Costo[]> {
-    return this.costoRepository.find({
+  findAll(): Promise<FlujoFinanciero[]> {
+    return this.flujoFinancieroRepository.find({
       relations: { proyecto: true }, // Incluye la relación con el proyecto
     });
   }
   // Busca un costo por su ID. Si no se encuentra, lanza una excepción NotFoundException.
-  async findOne(id: string): Promise<Costo> {
-    const costo = await this.costoRepository.findOne({
+  async findOne(id: string): Promise<FlujoFinanciero> {
+    const flujoFinanciero = await this.flujoFinancieroRepository.findOne({
       where: { id },
       relations: { proyecto: true },
     });
-    if (!costo) {
-      throw new NotFoundException(`Costo con ID "${id}" no encontrado`);
+    if (!flujoFinanciero) {
+      throw new NotFoundException(
+        `Flujo financiero con ID "${id}" no encontrado`,
+      );
     }
-    return costo;
+    return flujoFinanciero;
   }
   // Actualiza un costo existente por su ID. Si el costo no existe, lanza una excepción NotFoundException.
   async update(
     id: string,
-    actualizarCostoDto: ActualizarCostoDto,
-  ): Promise<Costo> {
-    const costo = await this.costoRepository.preload({
+    actualizarCostoDto: ActualizarFlujoFinancieroDto,
+  ): Promise<FlujoFinanciero> {
+    const flujoFinanciero = await this.flujoFinancieroRepository.preload({
       id,
       ...actualizarCostoDto,
     });
-    if (!costo) {
-      throw new NotFoundException(`Costo con ID "${id}" no encontrado`); // Verifica si el costo existe
+    if (!flujoFinanciero) {
+      throw new NotFoundException(
+        `Flujo financiero con ID "${id}" no encontrado`,
+      ); // Verifica si el flujo financiero existe
     }
 
     if (actualizarCostoDto.valoresAnuales) {
@@ -77,7 +85,7 @@ export class CostosService {
             `El horizonte de análisis del proyecto (${proyecto.horizonteAnalisis} años) no coincide con la cantidad de valores anuales proporcionados (${actualizarCostoDto.valoresAnuales.length} años)`,
           );
         }
-        costo.proyecto = proyecto; // Asocia el proyecto al costo actualizado
+        flujoFinanciero.proyecto = proyecto; // Asocia el proyecto al flujo financiero actualizado
       } else {
         throw new BadRequestException(
           'Si se actualizan los valores anuales, se debe proporcionar el ID del proyecto.',
@@ -85,11 +93,11 @@ export class CostosService {
       }
     }
 
-    return this.costoRepository.save(costo);
+    return this.flujoFinancieroRepository.save(flujoFinanciero);
   }
   // Elimina un costo por su ID. Si el costo no existe, lanza una excepción NotFoundException.
   async remove(id: string): Promise<void> {
-    const costo = await this.findOne(id);
-    await this.costoRepository.remove(costo); // Elimina el costo encontrado
+    const flujoFinanciero = await this.findOne(id);
+    await this.flujoFinancieroRepository.remove(flujoFinanciero); // Elimina el flujo financiero encontrado
   }
 }

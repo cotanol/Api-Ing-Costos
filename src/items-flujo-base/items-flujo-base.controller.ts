@@ -1,16 +1,16 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { ItemsCostoBaseService } from './items-costo-base.service';
-import { CrearItemCostoBaseDto } from './dtos/crear-item-costo-base.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ValidRoles } from 'src/auth/interfaces/valid-roles.interface';
+import { ItemsFlujoBaseService } from './items-flujo-base.service';
+import { CrearItemFlujoBaseDto } from './dtos/crear-item-flujo-base.dto';
 
-@Controller('items-costo-base')
-export class ItemsCostoBaseController {
-  constructor(private readonly itemsService: ItemsCostoBaseService) {}
+@Controller('items-flujo-base')
+export class ItemsFlujoBaseController {
+  constructor(private readonly itemsService: ItemsFlujoBaseService) {}
 
   @Post()
   @Auth(ValidRoles.admin)
-  create(@Body() dto: CrearItemCostoBaseDto) {
+  create(@Body() dto: CrearItemFlujoBaseDto) {
     return this.itemsService.create(dto);
   }
 

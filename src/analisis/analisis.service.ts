@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ProyectosService } from '../proyectos/proyectos.service';
 import { AnalisisRespuestaDto } from './dtos/analisis-respuesta.dto';
-import { Costo } from 'src/costos/entities/costo.entity';
-import { Beneficio } from 'src/beneficios/entities/beneficio.entity';
+import {
+  FlujoFinanciero,
+  TipoFlujo,
+} from 'src/flujos-financieros/entities/flujo-financiero.entity';
 
 @Injectable()
 export class AnalisisService {
@@ -14,18 +16,18 @@ export class AnalisisService {
       throw new NotFoundException('Proyecto no encontrado');
     }
 
-    const { horizonteAnalisis, tasaDescuento, costos, beneficios } = proyecto;
+    const { horizonteAnalisis, tasaDescuento, flujos } = proyecto;
 
     // Paso 1: Calcular correctamente los flujos de caja netos anuales
     const flujosCajaNetos = this.calcularFlujosCajaNetos(
-      costos,
-      beneficios,
+      flujos,
       horizonteAnalisis,
     );
 
     // Paso 2: Separar la inversión inicial de los flujos operativos
-    const inversionInicial = -flujosCajaNetos[0]; // La inversión es el flujo del año 1 en positivo
-    const flujosOperativos = flujosCajaNetos.slice(1); // El resto son los flujos operativos
+    const inversionInicial =
+      flujosCajaNetos.length > 0 ? -flujosCajaNetos[0] : 0;
+    const flujosOperativos = flujosCajaNetos.slice(1);
 
     // Paso 3: Calcular las métricas con los datos correctos
     const valorActualNeto = this.calcularVAN(
@@ -55,23 +57,26 @@ export class AnalisisService {
 
   //
   private calcularFlujosCajaNetos(
-    costos: Costo[],
-    beneficios: Beneficio[],
+    flujos: FlujoFinanciero[],
     horizonte: number,
   ): number[] {
-    const flujosCajaNetos: number[] = [];
+    const flujosNetos: number[] = [];
     for (let anio = 0; anio < horizonte; anio++) {
-      const totalBeneficios = beneficios.reduce(
-        (suma, beneficio) => suma + (beneficio.valoresAnuales[anio] || 0),
-        0,
-      );
-      const totalCostos = costos.reduce(
-        (suma, costo) => suma + (costo.valoresAnuales[anio] || 0),
-        0,
-      );
-      flujosCajaNetos.push(totalBeneficios + totalCostos);
+      const totalAnual = flujos.reduce((sumaParcial, flujo) => {
+        const valorAnual = flujo.valoresAnuales[anio] || 0;
+
+        // La lógica es simple: si es INGRESO, suma. Si es EGRESO, resta.
+        if (flujo.tipoFlujo === TipoFlujo.INGRESO) {
+          return sumaParcial + valorAnual;
+        } else {
+          // Asumimos que es EGRESO
+          return sumaParcial - valorAnual;
+        }
+      }, 0); // El valor inicial de la suma es 0
+
+      flujosNetos.push(totalAnual);
     }
-    return flujosCajaNetos;
+    return flujosNetos;
   }
 
   // Acepta la inversión y los flujos por separado (VAN)

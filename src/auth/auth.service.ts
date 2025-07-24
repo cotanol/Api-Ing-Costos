@@ -60,14 +60,14 @@ export class AuthService {
     }
 
     return {
-      ...user,
+      user,
       token: this.getJwtToken({ id: user.id }),
     };
   }
 
   async checkAuthStatus(user: User) {
     return {
-      ...user,
+      user,
       token: this.getJwtToken({ id: user.id }),
     };
   }

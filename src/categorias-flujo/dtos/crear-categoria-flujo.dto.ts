@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
-export class CrearCategoriaCostoDto {
+export class CrearCategoriaFlujoDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)

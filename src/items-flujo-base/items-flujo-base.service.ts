@@ -1,20 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ItemCostoBase } from './entities/item-costo-base.entity';
-import { CrearItemCostoBaseDto } from './dtos/crear-item-costo-base.dto';
-import { CategoriaCosto } from '../categorias-costo/entities/categoria-costo.entity';
+import { ItemFlujoBase } from './entities/item-flujo-base.entity';
+import { CategoriaFlujo } from 'src/categorias-flujo/entities/categoria-flujo.entity';
+import { CrearItemFlujoBaseDto } from './dtos/crear-item-flujo-base.dto';
 
 @Injectable()
-export class ItemsCostoBaseService {
+export class ItemsFlujoBaseService {
   constructor(
-    @InjectRepository(ItemCostoBase)
-    private readonly itemRepository: Repository<ItemCostoBase>,
-    @InjectRepository(CategoriaCosto)
-    private readonly categoriaRepository: Repository<CategoriaCosto>,
+    @InjectRepository(ItemFlujoBase)
+    private readonly itemRepository: Repository<ItemFlujoBase>,
+    @InjectRepository(CategoriaFlujo)
+    private readonly categoriaRepository: Repository<CategoriaFlujo>,
   ) {}
 
-  async create(dto: CrearItemCostoBaseDto): Promise<ItemCostoBase> {
+  async create(dto: CrearItemFlujoBaseDto): Promise<ItemFlujoBase> {
     const categoria = await this.categoriaRepository.findOneBy({
       id: dto.categoriaId,
     });
@@ -27,7 +27,7 @@ export class ItemsCostoBaseService {
     return this.itemRepository.save(nuevoItem);
   }
 
-  async findAll(categoriaId?: string): Promise<ItemCostoBase[]> {
+  async findAll(categoriaId?: string): Promise<ItemFlujoBase[]> {
     if (categoriaId) {
       return this.itemRepository.find({
         where: { categoria: { id: categoriaId } },

@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { ProyectosModule } from './proyectos/proyectos.module';
-import { CostosModule } from './costos/costos.module';
-import { BeneficiosModule } from './beneficios/beneficios.module';
 import { AnalisisModule } from './analisis/analisis.module';
-import { CategoriasCostoModule } from './categorias-costo/categorias-costo.module';
-import { ItemsCostoBaseModule } from './items-costo-base/items-costo-base.module';
 import { AuthModule } from './auth/auth.module';
+import { FlujosFinancierosModule } from './flujos-financieros/flujos-financieros.module';
+
+import { ItemsFlujoBaseModule } from './items-flujo-base/items-flujo-base.module';
+import { CategoriasFlujoModule } from './categorias-flujo/categorias-flujo.module';
 // Importa los módulos necesarios para la aplicación, incluyendo TypeORM para la conexión a la base de datos
 @Module({
   imports: [
@@ -30,15 +30,13 @@ import { AuthModule } from './auth/auth.module';
 
     ProyectosModule,
 
-    CostosModule,
-
-    BeneficiosModule,
+    FlujosFinancierosModule,
 
     AnalisisModule,
 
-    CategoriasCostoModule,
+    CategoriasFlujoModule,
 
-    ItemsCostoBaseModule,
+    ItemsFlujoBaseModule,
   ],
 })
 export class AppModule {}

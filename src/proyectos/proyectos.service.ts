@@ -4,8 +4,7 @@ import { ActualizarProyectoDto } from './dtos/actualizar-proyecto.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Proyecto } from './entities/proyecto.entity';
 import { EntityManager, Repository } from 'typeorm';
-import { Costo } from '../costos/entities/costo.entity';
-import { Beneficio } from '../beneficios/entities/beneficio.entity';
+import { FlujoFinanciero } from '../flujos-financieros/entities/flujo-financiero.entity';
 import { User } from 'src/auth/entities/user.entity';
 
 @Injectable()
@@ -26,8 +25,7 @@ export class ProyectosService {
     // Devuelve todos los proyectos, incluyendo sus costos y beneficios
     return this.proyectoRepository.find({
       relations: {
-        costos: true,
-        beneficios: true,
+        flujos: true,
       },
     });
   }
@@ -36,8 +34,7 @@ export class ProyectosService {
     const proyecto = await this.proyectoRepository.findOne({
       where: { id },
       relations: {
-        costos: true,
-        beneficios: true,
+        flujos: true,
       },
     });
     if (!proyecto) {
@@ -70,9 +67,10 @@ export class ProyectosService {
         throw new NotFoundException(`Proyecto con ID "${id}" no encontrado`);
       }
 
-      // Elimina los costos y beneficios asociados al proyecto
-      await transactionalEntityManager.delete(Costo, { proyecto: { id } });
-      await transactionalEntityManager.delete(Beneficio, { proyecto: { id } });
+      // Elimina los flujos financieros asociados al proyecto
+      await transactionalEntityManager.delete(FlujoFinanciero, {
+        proyecto: { id },
+      });
 
       // Finalmente elimina el proyecto
       await transactionalEntityManager.remove(proyecto);
