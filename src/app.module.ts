@@ -8,6 +8,7 @@ import { FlujosFinancierosModule } from './flujos-financieros/flujos-financieros
 
 import { ItemsFlujoBaseModule } from './items-flujo-base/items-flujo-base.module';
 import { CategoriasFlujoModule } from './categorias-flujo/categorias-flujo.module';
+import { SeedModule } from './seed/seed.module';
 // Importa los módulos necesarios para la aplicación, incluyendo TypeORM para la conexión a la base de datos
 @Module({
   imports: [
@@ -37,6 +38,8 @@ import { CategoriasFlujoModule } from './categorias-flujo/categorias-flujo.modul
     CategoriasFlujoModule,
 
     ItemsFlujoBaseModule,
+
+    SeedModule,
   ],
 })
 export class AppModule {}
