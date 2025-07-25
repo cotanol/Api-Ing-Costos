@@ -123,25 +123,25 @@ export const initialData: SeedData = {
         'Costos de hardware, alquiler de oficinas, servicios públicos y mantenimiento general.',
     },
     {
-      id: 'f4e61bd3-6e41-7eb1-c1be-61bd5e4f7081',
+      id: '34322e59-945a-414a-ba2e-e575a60b449d',
       nombre: 'Capacitación y Desarrollo',
       descripcion:
         'Costos para la formación y desarrollo de habilidades del equipo.',
     },
     {
-      id: '0a9f8e7d-6c5b-4a3e-2d1c-0b9a8f7e6d5c',
+      id: '44db1787-09eb-4824-a3ac-d8c298b209dd',
       nombre: 'Ingresos por Ventas',
       descripcion:
         'Ingresos generados directamente por la venta de productos o servicios.',
     },
     {
-      id: '1b8e7d6c-5b4a-3e2d-1c0b-9a8f7e6d5c4b',
+      id: '68a53d0f-d25c-4a73-8b84-62e44fe9495b',
       nombre: 'Reducción de Costos Operativos',
       descripcion:
         'Ahorros generados por la optimización de procesos operativos existentes.',
     },
     {
-      id: '2c7d6c5b-4a3e-2d1c-0b9a-8f7e6d5c4b3a',
+      id: '58a5800c-3381-4d90-bd97-990105087333',
       nombre: 'Costos Legales y de Cumplimiento',
       descripcion:
         'Gastos en asesoría legal, licencias gubernamentales y cumplimiento de normativas.',
@@ -275,7 +275,7 @@ export const initialData: SeedData = {
       tipo: Tipo.DIRECTO,
       tipoFlujo: TipoFlujo.EGRESO,
       comportamiento: Comportamiento.FIJO,
-      categoria: 'f4e61bd3-6e41-7eb1-c1be-61bd5e4f7081',
+      categoria: '34322e59-945a-414a-ba2e-e575a60b449d',
     }, // **Ingresos por Ventas**
     {
       id: 'cf803670-7ef4-4274-b6fe-51c70bd15b95',
@@ -287,7 +287,7 @@ export const initialData: SeedData = {
       tipo: Tipo.DIRECTO,
       tipoFlujo: TipoFlujo.INGRESO,
       comportamiento: Comportamiento.VARIABLE,
-      categoria: '0a9f8e7d-6c5b-4a3e-2d1c-0b9a8f7e6d5c',
+      categoria: '44db1787-09eb-4824-a3ac-d8c298b209dd',
     },
     {
       id: '8c4c0a33-8957-4919-94b5-98fc1778d241',
@@ -300,7 +300,7 @@ export const initialData: SeedData = {
       tipo: Tipo.DIRECTO,
       tipoFlujo: TipoFlujo.INGRESO,
       comportamiento: Comportamiento.VARIABLE,
-      categoria: '0a9f8e7d-6c5b-4a3e-2d1c-0b9a8f7e6d5c',
+      categoria: '44db1787-09eb-4824-a3ac-d8c298b209dd',
     }, // **Reducción de Costos Operativos**
     {
       id: 'f300fe8a-6195-44b5-8340-bf76a88952b4',
@@ -313,7 +313,7 @@ export const initialData: SeedData = {
       tipo: Tipo.INDIRECTO,
       tipoFlujo: TipoFlujo.INGRESO,
       comportamiento: Comportamiento.FIJO,
-      categoria: '1b8e7d6c-5b4a-3e2d-1c0b-9a8f7e6d5c4b',
+      categoria: '68a53d0f-d25c-4a73-8b84-62e44fe9495b',
     }, // **Costos Legales y de Cumplimiento**
     {
       id: 'c38fd200-868f-4700-b384-d72da8c19550',
@@ -326,7 +326,7 @@ export const initialData: SeedData = {
       tipo: Tipo.INDIRECTO,
       tipoFlujo: TipoFlujo.EGRESO,
       comportamiento: Comportamiento.FIJO,
-      categoria: '2c7d6c5b-4a3e-2d1c-0b9a-8f7e6d5c4b3a',
+      categoria: '58a5800c-3381-4d90-bd97-990105087333',
     }, // **Costos de Implementación (Nuevos)**
     {
       id: '6a4b5c6d-7e8f-4f80-8182-838485868789',
