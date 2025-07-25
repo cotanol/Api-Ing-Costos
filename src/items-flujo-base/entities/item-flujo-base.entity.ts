@@ -93,5 +93,5 @@ export class ItemFlujoBase {
   categoria: CategoriaFlujo;
 
   @OneToMany(() => FlujoFinanciero, (flujo) => flujo.itemFlujoBase)
-  flujo: FlujoFinanciero; // Relación con los flujos financieros asociados a este item
+  flujosFinancieros: FlujoFinanciero[];
 }

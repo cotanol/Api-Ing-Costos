@@ -49,6 +49,5 @@ export class CrearFlujoFinancieroDto {
   readonly categoriaId: string; // ID de la categoría a la que pertenece
 
   @IsUUID()
-  @IsOptional() // El vínculo a la plantilla es opcional
-  readonly itemFlujoBaseId?: string;
+  readonly itemFlujoBaseId: string;
 }

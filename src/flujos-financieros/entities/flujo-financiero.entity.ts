@@ -69,9 +69,11 @@ export class FlujoFinanciero {
   @ManyToOne(() => Proyecto, (proyecto) => proyecto.flujos)
   proyecto: Proyecto;
 
-  @ManyToOne(() => CategoriaFlujo, (categoria) => categoria.flujos)
-  categoria: CategoriaFlujo; // Relación con CategoriaFlujo, si es necesario
+  @ManyToOne(() => CategoriaFlujo, (categoria) => categoria.flujosFinancieros)
+  categoria: CategoriaFlujo;
 
-  @ManyToOne(() => ItemFlujoBase, (item) => item.flujo)
-  itemFlujoBase: ItemFlujoBase; // Relación con ItemFlujoBase, si es necesario
+  @ManyToOne(() => ItemFlujoBase, (item) => item.flujosFinancieros, {
+    nullable: false,
+  })
+  itemFlujoBase: ItemFlujoBase;
 }
