@@ -202,7 +202,7 @@ export const initialData: SeedData = {
       categoria: 'c1b3e8a0-3b1e-4b8e-9f8b-3e8a2b1c4d5e',
     },
     {
-      id: 'c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f',
+      id: '2f04239f-cbe8-4229-b192-f7c26c22f92a',
       nombre: 'Contratación de Consultores Externos',
       descripcion: 'Costo por hora de consultores especializados.',
       montoSugerido: 3000,
@@ -214,7 +214,7 @@ export const initialData: SeedData = {
       categoria: 'c1b3e8a0-3b1e-4b8e-9f8b-3e8a2b1c4d5e',
     }, // **Marketing y Ventas**
     {
-      id: 'd4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80',
+      id: 'c1d9bc7a-5a51-48dc-bed0-d9320d1d481b',
       nombre: 'Campaña de Marketing Digital',
       descripcion: 'Inversión en anuncios de Google y redes sociales.',
       montoSugerido: 2000,
@@ -226,7 +226,7 @@ export const initialData: SeedData = {
       categoria: 'd2c4f9b1-4c2f-5c9f-af9c-4f9b3c2d5e6f',
     },
     {
-      id: 'e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8081',
+      id: '5e96ee03-16b8-49f3-ad64-b15ec359e90a',
       nombre: 'Comisiones de Venta',
       descripcion:
         'Porcentaje de comisión sobre las nuevas ventas generadas por el proyecto.',
@@ -239,7 +239,7 @@ export const initialData: SeedData = {
       categoria: 'd2c4f9b1-4c2f-5c9f-af9c-4f9b3c2d5e6f',
     }, // **Infraestructura y Mantenimiento**
     {
-      id: 'f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f808182',
+      id: 'a9349401-6278-45fb-85d5-d0864ee01510',
       nombre: 'Mantenimiento de Servidores Físicos',
       descripcion:
         'Costo anual de mantenimiento para la infraestructura on-premise.',
@@ -252,7 +252,7 @@ export const initialData: SeedData = {
       categoria: 'e3d50ac2-5d30-6da0-b0ad-50ac4d3e6f70',
     },
     {
-      id: '0a8b9c0d-1e2f-4a3b-4c5d-6e7f80818283',
+      id: '2410949a-5f4e-44d4-834c-50ce4d8f7d18',
       nombre: 'Alquiler de Espacio de Oficina Adicional',
       descripcion:
         'Costo mensual por alquiler de espacio extra para el equipo del proyecto.',
@@ -265,7 +265,7 @@ export const initialData: SeedData = {
       categoria: 'e3d50ac2-5d30-6da0-b0ad-50ac4d3e6f70',
     }, // **Capacitación y Desarrollo**
     {
-      id: '1b9c0d1e-2f3a-4b4c-5d6e-7f8081828384',
+      id: '97e3c7c0-a5bc-445f-a76c-f34b01605bee',
       nombre: 'Curso de Capacitación en Nuevo Software',
       descripcion:
         'Costo único para capacitar al equipo en la nueva herramienta.',
@@ -278,7 +278,7 @@ export const initialData: SeedData = {
       categoria: 'f4e61bd3-6e41-7eb1-c1be-61bd5e4f7081',
     }, // **Ingresos por Ventas**
     {
-      id: '2c0d1e2f-3a4b-4c5d-6e7f-808182838485',
+      id: 'cf803670-7ef4-4274-b6fe-51c70bd15b95',
       nombre: 'Ingresos por Suscripción a Nuevo Servicio',
       descripcion: 'Ingresos recurrentes mensuales del nuevo servicio lanzado.',
       montoSugerido: 18000,
@@ -290,7 +290,7 @@ export const initialData: SeedData = {
       categoria: '0a9f8e7d-6c5b-4a3e-2d1c-0b9a8f7e6d5c',
     },
     {
-      id: '3d1e2f3a-4b5c-4d6e-7f80-818283848586',
+      id: '8c4c0a33-8957-4919-94b5-98fc1778d241',
       nombre: 'Venta de Nuevo Producto',
       descripcion:
         'Ingresos anuales estimados por la venta del nuevo producto.',
@@ -303,7 +303,7 @@ export const initialData: SeedData = {
       categoria: '0a9f8e7d-6c5b-4a3e-2d1c-0b9a8f7e6d5c',
     }, // **Reducción de Costos Operativos**
     {
-      id: '4e2f3a4b-5c6d-4e7f-8081-828384858687',
+      id: 'f300fe8a-6195-44b5-8340-bf76a88952b4',
       nombre: 'Ahorro en Consumo de Energía',
       descripcion:
         'Reducción de costos de servicios públicos gracias a nueva tecnología.',
@@ -316,7 +316,7 @@ export const initialData: SeedData = {
       categoria: '1b8e7d6c-5b4a-3e2d-1c0b-9a8f7e6d5c4b',
     }, // **Costos Legales y de Cumplimiento**
     {
-      id: '5f3a4b5c-6d7e-4f80-8182-838485868788',
+      id: 'c38fd200-868f-4700-b384-d72da8c19550',
       nombre: 'Asesoría Legal para Contratos',
       descripcion:
         'Costo único para la revisión y redacción de contratos con proveedores.',
