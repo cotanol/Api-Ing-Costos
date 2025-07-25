@@ -5,6 +5,11 @@
 # Analizador Financiero API
 
 1. Clonar el proyecto
+
+```
+git clone https://github.com/cotanol/Api-Ing-Costos.git
+```
+
 2. `npm install`
 
 3. Clonar el archivo `.env.template` y renombrarlo a `.env`
@@ -22,3 +27,5 @@ docker-compose up -d
 ```
 http://localhost:8080/api/seed
 ```
+
+8. Nos vamos al repositorio del frontend: https://github.com/cotanol/fron-ing-costos
