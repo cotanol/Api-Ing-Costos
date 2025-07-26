@@ -29,6 +29,17 @@ export class ProyectosService {
       },
     });
   }
+
+  findByUser(user: User): Promise<Proyecto[]> {
+    // Busca todos los proyectos asociados a un usuario específico
+    return this.proyectoRepository.find({
+      where: { user: { id: user.id } },
+      relations: {
+        flujos: true,
+      },
+    });
+  }
+
   // Busca un proyecto por su ID. Si no se encuentra, lanza una excepción NotFoundException.
   async findOne(id: string): Promise<Proyecto> {
     const proyecto = await this.proyectoRepository.findOne({

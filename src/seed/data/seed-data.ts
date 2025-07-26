@@ -69,7 +69,7 @@ interface SeedData {
 export const initialData: SeedData = {
   users: [
     {
-      id: 'd9b7f4a0-5b3a-4b0e-8e7e-9f3a3a3a3a3a',
+      id: 'd964bc35-f3cd-45ee-8050-94c9680bf4ac',
       email: 'admin@example.com',
       nombres: 'Franchesco',
       apellidos: 'Perez',
@@ -78,7 +78,7 @@ export const initialData: SeedData = {
       password: '123456Ab',
     },
     {
-      id: 'd9b7f4a0-5b3a-4b0e-8e7e-9f3a3a3a3a3b',
+      id: '8d6f3e5a-3333-403e-a1ed-6c7f5e72d1b2',
       email: 'user2@example.com',
       nombres: 'Ana',
       apellidos: 'Gomez',
@@ -363,7 +363,7 @@ export const initialData: SeedData = {
         'Análisis de costo-beneficio para la implementación de un nuevo CRM.',
       horizonteAnalisis: 5,
       tasaDescuento: 10,
-      user: 'd9b7f4a0-5b3a-4b0e-8e7e-9f3a3a3a3a3a',
+      user: 'd964bc35-f3cd-45ee-8050-94c9680bf4ac',
     },
     {
       id: 'b1c2d3e4-f6a7-4b8c-9d0e-1f2a3b4c5d6f',
@@ -372,7 +372,7 @@ export const initialData: SeedData = {
         'Análisis de costo-beneficio para migrar la infraestructura a la nube.',
       horizonteAnalisis: 3,
       tasaDescuento: 12,
-      user: 'd9b7f4a0-5b3a-4b0e-8e7e-9f3a3a3a3a3b',
+      user: '8d6f3e5a-3333-403e-a1ed-6c7f5e72d1b2',
     },
   ],
   flujosFinancieros: [

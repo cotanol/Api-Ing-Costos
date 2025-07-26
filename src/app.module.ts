@@ -24,7 +24,7 @@ import { SeedModule } from './seed/seed.module';
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: true,
-      // dropSchema: true, // ¡CUIDADO! Esto borra la BD en cada reinicio. Usar solo en desarrollo.
+      // dropSchema: true, // TODO: ¡CUIDADO! Esto borra la BD en cada reinicio. Usar solo en desarrollo.
     }),
 
     AuthModule,

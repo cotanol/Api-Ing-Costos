@@ -31,6 +31,12 @@ export class ProyectosController {
   findAll() {
     return this.proyectosService.findAll();
   }
+  // Obtiene todos los proyectos asociados a un usuario específico.
+  @Get('user')
+  findByUser(@GetUser() user: User) {
+    return this.proyectosService.findByUser(user);
+  }
+
   // Obtiene un proyecto específico por su ID, incluyendo sus costos y beneficios asociados.
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
