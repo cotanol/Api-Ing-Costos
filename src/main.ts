@@ -15,7 +15,7 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: 'http://localhost:3000', // TODO: frontend URL, seria mejor usar una variable de entorno
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   });
 
   await app.listen(process.env.PORT ?? 8080);
