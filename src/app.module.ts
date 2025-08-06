@@ -16,6 +16,11 @@ import { SeedModule } from './seed/seed.module';
       isGlobal: true, // para que las variables de entorno sean globales
     }),
     TypeOrmModule.forRoot({
+      ssl: process.env.STAGE === 'prod',
+      extra: {
+        ssl:
+          process.env.STAGE === 'prod' ? { rejectUnauthorized: false } : null,
+      },
       type: 'postgres',
       host: process.env.DB_HOST,
       port: +process.env.DB_PORT!,
